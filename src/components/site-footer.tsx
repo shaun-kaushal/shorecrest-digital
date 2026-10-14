@@ -5,7 +5,15 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border/60 bg-navy py-14">
       <div className="mx-auto max-w-3xl px-6 text-center">
-        <img src={logo} alt="Shorecrest Digital" className="mx-auto h-8 w-auto" />
+        <img
+          src={logo}
+          alt="Shorecrest Digital"
+          width={165}
+          height={32}
+          loading="lazy"
+          decoding="async"
+          className="mx-auto h-8 w-auto"
+        />
         <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
           Shorecrest Digital is a boutique growth partner agency located in Toronto, ON that focuses
           on helping financial firm owners grow their book of business through client acquisition

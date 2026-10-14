@@ -1,28 +1,21 @@
 import { WistiaVideo } from "@/components/wistia-video";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { Check } from "lucide-react";
 import danny from "@/assets/danny-khanna.png";
 
 export const Route = createFileRoute("/results/mybookly")({
-  head: () => ({
-    meta: [
-      { title: "MyBookly Marketing Case Study | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "How MyBookly Accounting generated a 462.51% ROI in 45 days and 1411.92% in 5 months with a new website and Google SEO strategy from Shorecrest Digital.",
-      },
-      { property: "og:title", content: "MyBookly Case Study: 462.51% ROI in 45 Days — Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "How MyBookly Accounting generated a 462.51% ROI in 45 days and 1411.92% in 5 months with a new website and Google SEO strategy.",
-      },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary" },
-    ],
-    links: [{ rel: "canonical", href: "/results/mybookly" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "MyBookly Marketing Case Study | Shorecrest Digital",
+      description:
+        "How MyBookly Accounting generated a 462.51% ROI in 45 days and 1411.92% in 5 months with a new website and Google SEO strategy from Shorecrest Digital.",
+      path: "/results/mybookly",
+      ogTitle: "MyBookly Case Study: 462.51% ROI in 45 Days | Shorecrest Digital",
+      ogDescription:
+        "How MyBookly Accounting generated a 462.51% ROI in 45 days and 1411.92% in 5 months with a new website and Google SEO strategy.",
+      type: "article",
+    }),
   component: MyBooklyCaseStudy,
 });
 
@@ -101,6 +94,10 @@ function MyBooklyCaseStudy() {
                 <img
                   src={danny}
                   alt="Danny Khanna"
+                  width={36}
+                  height={36}
+                  loading="lazy"
+                  decoding="async"
                   className="h-9 w-9 rounded-full object-cover"
                 />
                 <p className="text-xs font-semibold text-cream-foreground/70">

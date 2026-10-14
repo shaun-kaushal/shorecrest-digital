@@ -1,18 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/privacy-policy")({
-  head: () => ({
-    meta: [
-      { title: "Privacy Policy | Shorecrest Digital" },
-      { name: "description", content: "Shorecrest Digital privacy policy for accounting firm marketing visitors and clients." },
-      { property: "og:title", content: "Privacy Policy — Shorecrest Digital" },
-      { property: "og:description", content: "Shorecrest Digital privacy policy for accounting firm marketing visitors and clients." },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/privacy-policy" },
-      { name: "twitter:card", content: "summary" },
-      { name: "robots", content: "noindex, follow" },
-    ],
-  }),
+  head: () =>
+    pageHead({
+      title: "Privacy Policy | Shorecrest Digital",
+      description:
+        "Shorecrest Digital privacy policy for accounting firm marketing visitors and clients.",
+      path: "/privacy-policy",
+    }),
   component: PrivacyPolicyPage,
 });
 

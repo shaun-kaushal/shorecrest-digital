@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
-  createRootRouteWithContext,
+  createRootRoute,
   useRouter,
   HeadContent,
   Scripts,
@@ -75,7 +74,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+export const Route = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -86,31 +85,43 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content: "Client acquisition systems for accounting, bookkeeping and tax firms.",
       },
       { name: "author", content: "Shorecrest Digital" },
+      { name: "theme-color", content: "#061428" },
       { property: "og:site_name", content: "Shorecrest Digital" },
+      { property: "og:locale", content: "en_CA" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      // Self-hosted fonts: preloaded so text renders in the right font without a
+      // round trip to Google Fonts.
       {
-        rel: "stylesheet",
-        href: appCss,
+        rel: "preload",
+        href: "/manrope-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
       },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Manrope:wght@400;600;700;800&display=swap",
+        rel: "preload",
+        href: "/playfair-latin.woff2",
+        as: "font",
+        type: "font/woff2",
+        crossOrigin: "anonymous",
       },
+      { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
+      { rel: "apple-touch-icon", href: "/favicon.png" },
     ],
     scripts: [
       {
         type: "text/javascript",
-        children: `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "u9p0m92ebw");`,
+        // Clarity and RB2B load after the page finishes loading so they never
+        // compete with the page's own content.
+        children: `window.__scAfterLoad=function(f){if(document.readyState==="complete"){setTimeout(f,1)}else{window.addEventListener("load",function(){setTimeout(f,1)})}};window.__scAfterLoad(function(){(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", "u9p0m92ebw");});`,
       },
       {
         type: "text/javascript",
-        children: `!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("5NRP9H3DY4O1");`,
+        children: `window.__scAfterLoad(function(){!function(key) {if (window.reb2b) return;window.reb2b = {loaded: true};var s = document.createElement("script");s.async = true;s.src = "https://ddwl4m2hdecbv.cloudfront.net/b/" + key + "/" + key + ".js.gz";document.getElementsByTagName("script")[0].parentNode.insertBefore(s, document.getElementsByTagName("script")[0]);}("5NRP9H3DY4O1");});`,
       },
     ],
   }),
@@ -135,8 +146,6 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
   useEffect(() => {
     let cancelled = false;
 
@@ -167,12 +176,10 @@ function RootComponent() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen">
-        <SiteHeader />
-        <Outlet />
-        <SiteFooter />
-      </div>
-    </QueryClientProvider>
+    <div className="min-h-screen">
+      <SiteHeader />
+      <Outlet />
+      <SiteFooter />
+    </div>
   );
 }

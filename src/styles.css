@@ -1,6 +1,24 @@
 @import "tailwindcss" source(none);
 @source "../src";
+/* shadcn/ui components that no page uses: keep their classes out of the CSS. */
+@source not "./components/ui";
 @import "tw-animate-css";
+
+/* Self-hosted variable fonts (Latin subset). */
+@font-face {
+  font-family: "Manrope";
+  src: url("/manrope-latin.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Playfair Display";
+  src: url("/playfair-latin.woff2") format("woff2");
+  font-weight: 600 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 

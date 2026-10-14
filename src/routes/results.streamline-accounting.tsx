@@ -1,31 +1,20 @@
 import { WistiaVideo } from "@/components/wistia-video";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { Check } from "lucide-react";
 import ada from "@/assets/ada-zhang.png";
 
 export const Route = createFileRoute("/results/streamline-accounting")({
-  head: () => ({
-    meta: [
-      { title: "Streamline Marketing Case Study | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "How Streamline Accounting, a Calgary CPA firm for therapists, grew monthly qualified consultations by 183.33% with focused Google Ads and a rebuilt intake process.",
-      },
-      {
-        property: "og:title",
-        content: "Streamline Accounting Case Study: 183.33% More Qualified Consultations — Shorecrest Digital",
-      },
-      {
-        property: "og:description",
-        content:
-          "How Streamline Accounting, a Calgary CPA firm for therapists, grew monthly qualified consultations by 183.33% with focused Google Ads and a rebuilt intake process.",
-      },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary" },
-    ],
-    links: [{ rel: "canonical", href: "/results/streamline-accounting" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Streamline Marketing Case Study | Shorecrest Digital",
+      description:
+        "How Streamline Accounting, a Calgary CPA firm for therapists, grew monthly qualified consultations by 183.33% with focused Google Ads and a rebuilt intake process.",
+      path: "/results/streamline-accounting",
+      ogTitle:
+        "Streamline Accounting Case Study: 183.33% More Qualified Consultations | Shorecrest Digital",
+      type: "article",
+    }),
   component: StreamlineAccountingCaseStudy,
 });
 
@@ -97,7 +86,11 @@ function StreamlineAccountingCaseStudy() {
                 other small business owners."
               </p>
               <footer className="mt-4 flex items-center gap-3">
-                <img src={ada} alt="Ada Zhang" className="h-9 w-9 rounded-full object-cover" />
+                <img src={ada} alt="Ada Zhang" width={36}
+                  height={36}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-9 w-9 rounded-full object-cover" />
                 <p className="text-xs font-semibold text-cream-foreground/70">
                   Ada Zhang, Founder @ Streamline Accounting
                 </p>

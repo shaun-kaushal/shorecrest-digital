@@ -1,27 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { blogPosts } from "@/lib/blog-posts";
 
 export const Route = createFileRoute("/blog/")({
-  head: () => ({
-    meta: [
-      { title: "Blogs | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Practical marketing guides for accounting, bookkeeping, and tax firm owners: positioning, Google Business Profile, selling tax services, and choosing a marketing agency.",
-      },
-      { property: "og:title", content: "Blog — Marketing Insights for Accounting Firms — Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "Practical marketing guides for accounting, bookkeeping, and tax firm owners from Shorecrest Digital.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/blog" },
-      { name: "twitter:card", content: "summary" },
-    ],
-    links: [{ rel: "canonical", href: "/blog" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Blogs | Shorecrest Digital",
+      description:
+        "Practical marketing guides for accounting, bookkeeping, and tax firm owners: positioning, Google Business Profile, selling tax services, and choosing a marketing agency.",
+      path: "/blog",
+      ogTitle: "Blog: Marketing Insights for Accounting Firms | Shorecrest Digital",
+      ogDescription:
+        "Practical marketing guides for accounting, bookkeeping, and tax firm owners from Shorecrest Digital.",
+    }),
   component: BlogIndex,
 });
 
@@ -41,7 +32,7 @@ function BlogIndex() {
 
       <section className="mx-auto max-w-5xl px-6 pb-24">
         <ul className="space-y-6">
-          {blogPosts.map((post) => (
+          {blogPosts.map((post, i) => (
             <li key={post.slug}>
               <Link
                 to="/blog/$slug"
@@ -52,7 +43,11 @@ function BlogIndex() {
                   <img
                     src={post.image}
                     alt={post.imageAlt}
-                    loading="lazy"
+                    width={666}
+                    height={370}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : "auto"}
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

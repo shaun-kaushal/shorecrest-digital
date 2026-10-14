@@ -1,19 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/scaling")({
-  head: () => ({
-    meta: [
-      { title: "Tax Planning & Advisory Client Acquisition | ClientForge by Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "ClientForge helps established accounting firms attract high-value tax planning and advisory clients using Meta and LinkedIn ads, with every lead screened for fit.",
-      },
-      { property: "og:title", content: "Scaling Phase: ClientForge by Shorecrest Digital" },
-      { property: "og:url", content: "/services/scaling" },
-    ],
-    links: [{ rel: "canonical", href: "/services/scaling" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "ClientForge: Coming Soon | Shorecrest Digital",
+      description:
+        "ClientForge is a client acquisition system for accounting firms doing $2M+ with multiple partners. Coming soon from Shorecrest Digital.",
+      path: "/services/scaling",
+      ogTitle: "Scaling Phase: ClientForge by Shorecrest Digital",
+    }),
   component: ScalingPage,
 });
 

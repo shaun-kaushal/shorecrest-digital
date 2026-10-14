@@ -1,27 +1,23 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead, faqJsonLd } from "@/lib/seo";
 import ada from "@/assets/ada-zhang.png";
 import danny from "@/assets/danny-khanna.png";
 import george from "@/assets/georgekcpa-gk-pic.png";
 import rajiv from "@/assets/rajiv-kaushal.png";
 import shaun from "@/assets/shaun-linkedin-pic.png";
 import heroImage from "@/assets/clientsurge-hero-462-roas.webp";
-import { ImagePlaceholder } from "@/components/image-placeholder";
 import { WistiaVideo } from "@/components/wistia-video";
 
 export const Route = createFileRoute("/services/growth")({
-  head: () => ({
-    meta: [
-      { title: "30 Qualified Consultations In 90 Days, Guaranteed | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "We book tax, accounting and bookkeeping firms 30 qualified business consultations in 90 days, guaranteed, or we work at no cost until we do.",
-      },
-      { property: "og:title", content: "Growth Phase: ClientSurge by Shorecrest Digital" },
-      { property: "og:url", content: "/services/growth" },
-    ],
-    links: [{ rel: "canonical", href: "/services/growth" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "ClientSurge: 10+ Qualified Consultations Every Month | Shorecrest Digital",
+      description:
+        "Done-for-you Google and Facebook ads for tax, accounting and bookkeeping firms, with every lead screened by our team. Receive 10+ qualified consultations a month.",
+      path: "/services/growth",
+      ogTitle: "Growth Phase: ClientSurge by Shorecrest Digital",
+      jsonLd: faqJsonLd(faqs),
+    }),
   component: GrowthPage,
 });
 
@@ -54,7 +50,7 @@ const problems = [
 
 const pillars = [
   {
-    title: "Attract With Google & Facebook Ads",
+    title: "Attract With Facebook Ads",
     lead: "Get in front of business owners who don't have an accountant to ask.",
     points: [
       "Campaigns built around the clients and services you actually want",
@@ -64,7 +60,7 @@ const pillars = [
     ],
   },
   {
-    title: "Screen Every Lead Before It Reaches You",
+    title: "Every Lead Is Qualified",
     lead: "Only qualified business owners make it to your calendar.",
     points: [
       "Every lead completes a survey and a real conversation with our team",
@@ -268,8 +264,8 @@ function GrowthPage() {
             <img
               src={heroImage}
               alt="Accounting firm owner whose firm achieved a 462% return on ad spend"
-              width={940}
-              height={1175}
+              width={720}
+              height={900}
               fetchPriority="high"
               className="aspect-[4/5] w-full rounded-lg border border-border object-cover object-top"
             />
@@ -324,30 +320,32 @@ function GrowthPage() {
           <h2 className="text-center text-3xl leading-snug sm:text-4xl">
             Here's How We'll Bring You <span className="text-gold">10 Clients</span> Every Month
           </h2>
-          {pillars.map((p, i) => (
-            <div key={p.title} className="mt-16 grid items-center gap-10 md:grid-cols-2 md:gap-14">
-              <div className={i % 2 ? "md:order-2" : ""}>
-                <ImagePlaceholder className="aspect-[4/3]" />
-              </div>
-              <div>
+          <div className="mt-16 grid gap-6 md:grid-cols-2">
+            {pillars.map((p) => (
+              <div
+                key={p.title}
+                className="rounded-lg border border-border bg-card p-8 sm:p-10"
+              >
                 <h3 className="text-2xl leading-snug sm:text-3xl">{p.title}</h3>
                 <p className="mt-3 text-base text-muted-foreground">{p.lead}</p>
                 <ul className="mt-6 space-y-3.5">
                   {p.points.map((pt) => (
                     <li key={pt} className="flex gap-3 text-base text-foreground/90">
-                      <span className="mt-0.5"><Check /></span>
+                      <span className="mt-0.5">
+                        <Check />
+                      </span>
                       <span>{pt}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-            </div>
-          ))}
-          <div className="mt-16 grid overflow-hidden rounded-lg border border-border bg-card md:grid-cols-2">
+            ))}
+          </div>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
             {panels.map((p) => (
               <div
                 key={p.title}
-                className="border-b border-border p-8 last:border-b-0 sm:p-10 md:border-b-0 md:border-r md:last:border-r-0"
+                className="rounded-lg border border-border bg-card p-8 sm:p-10"
               >
                 <h3 className="text-2xl leading-snug sm:text-3xl">{p.title}</h3>
                 <p className="mt-3 text-base text-muted-foreground">{p.lead}</p>

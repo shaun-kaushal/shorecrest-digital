@@ -1,27 +1,23 @@
 import { useEffect, type ReactNode } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { ImagePlaceholder } from "@/components/image-placeholder";
-import googleAdsDemo from "@/assets/leadflow/google-ads-demo.webp";
-import landingPageDemo from "@/assets/leadflow/landing-page-demo.webp";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead, faqJsonLd } from "@/lib/seo";
+import { LeadflowDashboard } from "@/components/leadflow-dashboard";
+import { LazyVideo } from "@/components/lazy-video";
 import adsCrypto from "@/assets/results/google-ads-crypto-tax.webp";
 import adsNpo from "@/assets/results/google-ads-npo-cpa.webp";
 import adsEcommerce from "@/assets/results/google-ads-ecommerce-accounting.webp";
 import adsNonResident from "@/assets/results/google-ads-non-resident-tax.webp";
 
 export const Route = createFileRoute("/services/starter")({
-  head: () => ({
-    meta: [
-      { title: "Starter Phase: 5-10 Consultations A Month Without An Agency | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Leadflow by Shorecrest gives accounting, tax and bookkeeping firms an AI-powered system to generate 5-10 consultations a month without hiring a marketing agency. Plans from $297/month.",
-      },
-      { property: "og:title", content: "Starter Phase: Leadflow by Shorecrest" },
-      { property: "og:url", content: "/services/starter" },
-    ],
-    links: [{ rel: "canonical", href: "/services/starter" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Starter Phase: 5-10 Consultations A Month Without An Agency | Shorecrest Digital",
+      description:
+        "Leadflow by Shorecrest gives accounting, tax and bookkeeping firms an AI-powered system to generate 5-10 consultations a month without hiring a marketing agency. Plans from $297/month.",
+      path: "/services/starter",
+      ogTitle: "Starter Phase: Leadflow by Shorecrest",
+      jsonLd: faqJsonLd(faqs as [string, string][]),
+    }),
   component: StarterPage,
 });
 
@@ -42,27 +38,31 @@ const problems = [
 
 const pillars = [
   {
-    title: "Attract With Google & Facebook Ads",
+    title: "Attract With Google & AI",
     lead: "Get in front of the right people on Google and Meta at the moment they need you.",
-    media: googleAdsDemo,
+    video: "/leadflow-google-ads-demo.mp4",
+    poster: "/leadflow-google-ads-demo-poster.webp",
+    width: 670,
+    height: 360,
     alt: "Google and Meta ads preview",
     points: [
       "Live Google Search campaigns within 24 hours for every accounting service",
       "Google Maps optimisation that ranks you in the top 3 for your service categories",
-      "Meta ads targeting your niche by revenue band, headcount and behaviour",
       "Retargeting sequences for people who visited your site or booking link",
     ],
   },
   {
-    title: "Convert With Custom Landing Pages",
+    title: "Convert With Landing Pages",
     lead: "Turn attention into phone calls and appointments.",
-    media: landingPageDemo,
+    video: "/leadflow-landing-page-demo.mp4",
+    poster: "/leadflow-landing-page-demo-poster.webp",
+    width: 810,
+    height: 360,
     alt: "Landing page preview",
     points: [
       "Conversion-tested pages purpose-built for tax prep, bookkeeping, payroll and advisory",
       "Generates a full page from your service URL in minutes",
       "Mobile-optimised with built-in consent, no cookie theatre",
-      "Copy, imagery and offers rewritten with one click",
     ],
   },
 ];
@@ -205,9 +205,9 @@ function Badges({ items, left }: { items: string[]; left?: boolean }) {
 function CtaButtons({ light, left }: { light?: boolean; left?: boolean }) {
   return (
     <div className={`flex flex-col gap-3 sm:flex-row ${left ? "justify-center lg:justify-start" : "justify-center"}`}>
-      <button type="button" onClick={() => scrollTo("book")} className="btn-gold">
+      <Link to="/strategy" className="btn-gold">
         Book A Live Demo
-      </button>
+      </Link>
       <button
         type="button"
         onClick={() => scrollTo("results")}
@@ -251,7 +251,6 @@ function useScript(src: string, attrs: Record<string, string> = {}) {
 
 function StarterPage() {
   useScript("https://js.storylane.io/js/v2/storylane.js", { "data-verify-origin": "" });
-  useScript("https://link.msgsndr.com/js/form_embed.js");
 
   return (
     <main>
@@ -278,7 +277,7 @@ function StarterPage() {
             </div>
           </div>
           <div className="mx-auto w-full max-w-md lg:max-w-none">
-            <ImagePlaceholder />
+            <LeadflowDashboard />
           </div>
         </div>
       </section>
@@ -313,7 +312,13 @@ function StarterPage() {
               <div
                 className={`overflow-hidden rounded-lg border border-border bg-navy ${i % 2 ? "md:order-2" : ""}`}
               >
-                <img src={p.media} alt={p.alt} loading="lazy" className="h-auto w-full" />
+                <LazyVideo
+                  src={p.video}
+                  poster={p.poster}
+                  width={p.width}
+                  height={p.height}
+                  label={p.alt}
+                />
               </div>
               <div>
                 <h3 className="text-2xl leading-snug sm:text-3xl">{p.title}</h3>
@@ -465,6 +470,9 @@ function StarterPage() {
               <article key={r.title} className="flex flex-col rounded-lg border border-border bg-card p-6">
                 <img
                   src={r.shot}
+                  width={1476}
+                  height={614}
+                  decoding="async"
                   alt={`Google Ads results for ${r.title}`}
                   loading="lazy"
                   className="h-auto w-full rounded border border-border"
@@ -478,7 +486,7 @@ function StarterPage() {
       </section>
 
       {/* Booking */}
-      <section id="book" className="section scroll-mt-20 bg-navy">
+      <section className="section bg-navy">
         <div className="mx-auto max-w-5xl px-6">
           <SectionHead sub="See the system running on your firm's data before you pay a cent.">
             Your Next 15 Clients Are Already Searching
@@ -486,17 +494,8 @@ function StarterPage() {
           <div className="mt-7">
             <Badges items={["30-Day Trial", "Cancel anytime", "Plans from $297/mo"]} />
           </div>
-          <div className="mx-auto mt-10 max-w-2xl overflow-hidden rounded-lg">
-            <iframe
-              src="https://api.leadconnectorhq.com/widget/survey/tXkzsLgHtACSUob6K0H6"
-              scrolling="no"
-              id="tXkzsLgHtACSUob6K0H6"
-              title="survey"
-              data-cookie-consent="true"
-              data-cookie-consent-provider="auto"
-              className="block w-full"
-              style={{ border: "none", width: "100%", minHeight: 360 }}
-            />
+          <div className="mt-10">
+            <CtaButtons />
           </div>
         </div>
       </section>

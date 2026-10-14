@@ -1,28 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useEffect } from "react";
 import { Check } from "lucide-react";
 import shaun from "@/assets/shaun-linkedin-pic.png";
 
 export const Route = createFileRoute("/strategy")({
-  head: () => ({
-    meta: [
-      { title: "Contact Us | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Book a free strategy call with Shorecrest Digital. We'll map your accounting firm's situation and show you exactly how to attract more of the right clients.",
-      },
-      { property: "og:title", content: "Book a Free Strategy Call — Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "Book a free strategy call with Shorecrest Digital. We'll map your accounting firm's situation and show you exactly how to attract more of the right clients.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-    links: [{ rel: "canonical", href: "/strategy" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Contact Us | Shorecrest Digital",
+      description:
+        "Book a free strategy call with Shorecrest Digital. We'll map your accounting firm's situation and show you exactly how to attract more of the right clients.",
+      path: "/strategy",
+      ogTitle: "Book a Free Strategy Call | Shorecrest Digital",
+    }),
   component: StrategyCallPage,
 });
 
@@ -85,6 +75,8 @@ function StrategyCallPage() {
               <img
                 src={shaun}
                 alt="Shaun Kaushal, Founder of Shorecrest Digital"
+                width={56}
+                height={56}
                 className="aspect-square h-14 w-14 shrink-0 rounded-full border border-gold/40 object-cover object-center"
               />
               <div>

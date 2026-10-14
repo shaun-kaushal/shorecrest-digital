@@ -1,28 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import { useEffect } from "react";
 import { CheckCircle } from "lucide-react";
 
 export const Route = createFileRoute("/thank-you")({
-  head: () => ({
-    meta: [
-      { title: "Thank You — Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Thank you for booking a strategy call with Shorecrest Digital. We'll be in touch shortly.",
-      },
-      { property: "og:title", content: "Thank You — Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "Thank you for booking a strategy call with Shorecrest Digital. We'll be in touch shortly.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "robots", content: "noindex, follow" },
-    ],
-    links: [{ rel: "canonical", href: "/thank-you" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Thank You | Shorecrest Digital",
+      description:
+        "Thank you for booking a strategy call with Shorecrest Digital. We'll be in touch shortly.",
+      path: "/thank-you",
+      noindex: true,
+    }),
   component: ThankYouPage,
 });
 

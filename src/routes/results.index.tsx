@@ -1,26 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/results/")({
-  head: () => ({
-    meta: [
-      { title: "Client Results | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Real results from accounting firms we've worked with: case studies covering ROI, lead generation, and Google growth strategies from Shorecrest Digital.",
-      },
-      { property: "og:title", content: "Client Results | Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "Case studies covering ROI, lead generation, and Google growth strategies for accounting firms.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/results" },
-      { name: "twitter:card", content: "summary" },
-    ],
-    links: [{ rel: "canonical", href: "/results" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Client Results | Shorecrest Digital",
+      description:
+        "Real results from accounting firms we've worked with: case studies covering ROI, lead generation, and Google growth strategies from Shorecrest Digital.",
+      path: "/results",
+      ogDescription:
+        "Case studies covering ROI, lead generation, and Google growth strategies for accounting firms.",
+    }),
   component: ResultsIndex,
 });
 
@@ -63,7 +53,7 @@ function ResultsIndex() {
 
       <section className="mx-auto max-w-5xl px-6 pb-24">
         <ul className="space-y-6">
-          {caseStudies.map((study) => (
+          {caseStudies.map((study, i) => (
             <li key={study.to}>
               <Link
                 to={study.to}
@@ -73,7 +63,11 @@ function ResultsIndex() {
                   <img
                     src={study.image}
                     alt={study.imageAlt}
-                    loading="lazy"
+                    width={1280}
+                    height={720}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    fetchPriority={i === 0 ? "high" : "auto"}
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

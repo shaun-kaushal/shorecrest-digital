@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { blogPosts, getBlogPost, type BlogBlock } from "@/lib/blog-posts";
+import { absUrl, pageHead } from "@/lib/seo";
 import shaun from "@/assets/shaun-linkedin-pic.png";
 
 export const Route = createFileRoute("/blog/$slug")({
@@ -16,33 +17,39 @@ export const Route = createFileRoute("/blog/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Article not found — Shorecrest Digital" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Article not found | Shorecrest Digital" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const { post } = loaderData;
-    return {
-      meta: [
-        { title: `${post.title} | Shorecrest Digital` },
-        { name: "description", content: post.excerpt },
-        { property: "og:title", content: `${post.title} — Shorecrest Digital` },
-        { property: "og:description", content: post.excerpt },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: `/blog/${params.slug}` },
-        { name: "twitter:card", content: "summary_large_image" },
+    const path = `/blog/${params.slug}`;
+    const published = new Date(post.date).toISOString().slice(0, 10);
+    return pageHead({
+      title: `${post.title} | Shorecrest Digital`,
+      description: post.excerpt,
+      path,
+      image: post.image,
+      imageAlt: post.imageAlt,
+      type: "article",
+      extraMeta: [
+        { property: "article:published_time", content: published },
+        { property: "article:author", content: "Shaun Kaushal" },
       ],
-      links: [{ rel: "canonical", href: `/blog/${params.slug}` }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Article",
-            headline: post.title,
-            description: post.excerpt,
-            author: { "@type": "Person", name: "Shaun Kaushal" },
-          }),
-        },
-      ],
-    };
+      jsonLd: {
+        "@type": "BlogPosting",
+        headline: post.title,
+        description: post.excerpt,
+        image: absUrl(post.image),
+        datePublished: published,
+        dateModified: published,
+        author: { "@type": "Person", name: "Shaun Kaushal", url: absUrl("/about") },
+        publisher: { "@id": "https://shorecrest.co/#organization" },
+        mainEntityOfPage: absUrl(path),
+      },
+    });
   },
   component: BlogArticle,
 });
@@ -72,6 +79,9 @@ function BlogArticle() {
       <section className="relative overflow-hidden">
         <img
           src={post.image}
+          width={666}
+          height={370}
+          fetchPriority="high"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full scale-110 object-cover blur-md brightness-[0.25]"
@@ -98,6 +108,10 @@ function BlogArticle() {
             <img
               src={shaun}
               alt="Shaun Kaushal"
+              width={64}
+              height={64}
+              loading="lazy"
+              decoding="async"
               className="aspect-square h-16 w-16 shrink-0 rounded-full object-cover object-center"
             />
             <div>

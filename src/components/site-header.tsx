@@ -54,7 +54,13 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-border/60 bg-navy-deep/90 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="Shorecrest Digital" className="h-7 w-auto" />
+          <img
+            src={logo}
+            alt="Shorecrest Digital"
+            width={144}
+            height={28}
+            className="h-7 w-auto"
+          />
         </Link>
         <nav className="flex items-center gap-8">
           <ul className="hidden items-center gap-7 text-sm font-semibold tracking-wide sm:flex">

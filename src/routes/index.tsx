@@ -1,32 +1,30 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead, organizationJsonLd } from "@/lib/seo";
 import { HeroDashboard } from "@/components/hero-dashboard";
 import { WistiaVideo } from "@/components/wistia-video";
 import shaun from "@/assets/shaun-kaushal-shorecrest.webp";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Shorecrest Digital: Marketing for Accounting Firms" },
-      {
-        name: "description",
-        content:
-          "We help bookkeeping, tax and CPA firms engineer a predictable path to qualified clients with a repeatable growth system.",
-      },
-      {
-        property: "og:title",
-        content: "Shorecrest Digital — Client Acquisition for Accounting Firms",
-      },
-      {
-        property: "og:description",
-        content:
-          "A repeatable client-attracting system for accounting, bookkeeping and tax firms. No low-quality leads, no referral dependency.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Shorecrest Digital: Marketing for Accounting Firms",
+      description:
+        "We help bookkeeping, tax and CPA firms engineer a predictable path to qualified clients with a repeatable growth system.",
+      path: "/",
+      ogTitle: "Shorecrest Digital | Client Acquisition for Accounting Firms",
+      ogDescription:
+        "A repeatable client-attracting system for accounting, bookkeeping and tax firms. No low-quality leads, no referral dependency.",
+      jsonLd: [
+        organizationJsonLd,
+        {
+          "@type": "WebSite",
+          "@id": "https://shorecrest.co/#website",
+          name: "Shorecrest Digital",
+          url: "https://shorecrest.co",
+          publisher: { "@id": "https://shorecrest.co/#organization" },
+        },
+      ],
+    }),
   component: Home,
 });
 
@@ -131,7 +129,7 @@ function Home() {
           <p className="text-center text-xs tracking-[0.18em] text-muted-foreground uppercase">
             Trusted by firms including
           </p>
-          <div className="relative mx-auto mt-6 max-w-5xl overflow-hidden px-6">
+          <div className="relative mx-auto mt-8 max-w-5xl overflow-hidden px-6">
             <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-navy to-transparent" />
             <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-navy to-transparent" />
             <div className="animate-marquee flex w-max items-center gap-12 text-sm font-semibold text-muted-foreground/70">
@@ -274,6 +272,10 @@ function Home() {
             <img
               src={shaun}
               alt="Shaun Kaushal, Founder of Shorecrest Digital"
+              width={720}
+              height={1280}
+              loading="lazy"
+              decoding="async"
               className="h-auto max-h-[420px] w-full rounded-lg object-cover"
             />
             <div>

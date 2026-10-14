@@ -1,19 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 
 export const Route = createFileRoute("/services/")({
-  head: () => ({
-    meta: [
-      { title: "Services: LeadFlow, ClientSurge & ClientForge | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Three client acquisition systems for accounting, bookkeeping and tax firms: LeadFlow for firms running their own marketing, ClientSurge for done-for-you lead generation, and ClientForge for tax planning and advisory clients.",
-      },
-      { property: "og:title", content: "Services | Shorecrest Digital" },
-      { property: "og:url", content: "/services" },
-    ],
-    links: [{ rel: "canonical", href: "/services" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "Services: LeadFlow, ClientSurge & ClientForge | Shorecrest Digital",
+      description:
+        "Client acquisition systems for accounting, bookkeeping and tax firms: LeadFlow, ClientSurge and ClientForge, sized to your firm's revenue and goals.",
+      path: "/services",
+      ogTitle: "Services | Shorecrest Digital",
+    }),
   component: ServicesPage,
 });
 

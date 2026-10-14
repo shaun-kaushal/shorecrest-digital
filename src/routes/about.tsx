@@ -1,27 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { pageHead } from "@/lib/seo";
 import shaun from "@/assets/shaun-kaushal-shorecrest.webp";
 
 export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About Us | Shorecrest Digital" },
-      {
-        name: "description",
-        content:
-          "Meet Shaun Kaushal and the Shorecrest Digital approach: marketing systems built exclusively for accounting, bookkeeping and tax firms.",
-      },
-      { property: "og:title", content: "About Shorecrest Digital" },
-      {
-        property: "og:description",
-        content:
-          "A boutique growth partner for accounting, bookkeeping and tax firms — see how we work and what clients say.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/about" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/about" }],
-  }),
+  head: () =>
+    pageHead({
+      title: "About Us | Shorecrest Digital",
+      description:
+        "Meet Shaun Kaushal and the Shorecrest Digital approach: marketing systems built exclusively for accounting, bookkeeping and tax firms.",
+      path: "/about",
+      ogTitle: "About Shorecrest Digital",
+      ogDescription:
+        "A boutique growth partner for accounting, bookkeeping and tax firms. See how we work and what clients say.",
+    }),
   component: About,
 });
 
@@ -62,6 +53,8 @@ function About() {
               <img
                 src={shaun}
                 alt="Shaun Kaushal, Founder of Shorecrest Digital"
+                width={720}
+                height={1280}
                 className="h-full w-full object-cover object-center"
               />
             </div>
