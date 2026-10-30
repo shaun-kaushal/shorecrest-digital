@@ -11,16 +11,16 @@ const channels = [
 
 const total = channels.reduce((n, c) => n + c.consults, 0);
 
-/** LeadFlow hero graphic: a compact Google-only version of the homepage dashboard. */
+/** LeadFirm AI hero graphic: a compact Google-only version of the homepage dashboard. */
 export function LeadflowDashboard() {
   return (
     <div
       role="img"
-      aria-label="Example LeadFlow dashboard: 9 qualified consultations in September from Google Search Ads, Local Service Ads and Google Business Profile"
+      aria-label="Example LeadFirm AI dashboard: 9 qualified consultations in September from Google Search Ads, Local Service Ads and Google Business Profile"
       className="rounded-xl border-2 border-navy-soft bg-navy p-5 text-left text-foreground shadow-2xl shadow-black/30 sm:p-6"
     >
       <div className="flex items-center justify-between gap-3 border-b border-border pb-4">
-        <p className="font-display text-lg font-semibold">LeadFlow Dashboard</p>
+        <p className="font-display text-lg font-semibold">LeadFirm AI Dashboard</p>
         <span className="shrink-0 rounded-md border border-border bg-navy-soft/60 px-2.5 py-1 text-[0.7rem] font-semibold whitespace-nowrap text-foreground/80">
           Sep 2026
         </span>

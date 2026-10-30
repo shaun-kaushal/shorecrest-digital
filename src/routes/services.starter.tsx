@@ -13,9 +13,9 @@ export const Route = createFileRoute("/services/starter")({
       title:
         "Starter Phase: 5-10 Consultations A Month Without An Agency | Shorecrest Digital",
       description:
-        "Leadflow by Shorecrest gives accounting, tax and bookkeeping firms an AI-powered system to generate 5-10 consultations a month without hiring a marketing agency. Plans from $297/month.",
+        "LeadFirm AI by Shorecrest gives accounting, tax and bookkeeping firms an AI-powered system to generate 5-10 consultations a month without hiring a marketing agency. Plans from $297/month.",
       path: "/services/starter",
-      ogTitle: "Starter Phase: Leadflow by Shorecrest",
+      ogTitle: "Starter Phase: LeadFirm AI by Shorecrest",
       jsonLd: faqJsonLd(faqs as [string, string][]),
     }),
   component: StarterPage,
@@ -269,7 +269,7 @@ function StarterPage() {
       <section className="hero-bg pt-[136px] pb-[88px] sm:pt-[152px]">
         <div className="mx-auto grid max-w-5xl items-center gap-10 px-6 lg:grid-cols-[1.25fr_0.75fr]">
           <div className="text-center lg:text-left">
-            <p className="eyebrow">LeadFlow: Starter Phase ($50K+)</p>
+            <p className="eyebrow">LeadFirm AI: Starter Phase ($50K+)</p>
             <h1 className="mx-auto mt-5 max-w-[22ch] text-3xl leading-tight text-balance sm:text-4xl lg:mx-0 lg:text-[2.4rem]">
               Use AI To Get More Consults Without Hiring An Agency
             </h1>
@@ -371,7 +371,7 @@ function StarterPage() {
                 className="sl-demo"
                 src="https://app.storylane.io/demo/oxmj4pvpegdm?embed=inline"
                 name="sl-embed"
-                title="Leadflow product demo"
+                title="LeadFirm AI product demo"
                 allow="fullscreen"
                 allowFullScreen
                 style={{

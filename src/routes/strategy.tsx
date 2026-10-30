@@ -34,10 +34,11 @@ function StrategyCallPage() {
     }
 
     // The embed script auto-resizes the iframe and can under-measure it,
-    // which shows an internal scrollbar. Never let it drop below the form's
-    // own data-height (666px); the script is still free to grow it.
+    // which shows an internal scrollbar. Never let it drop below the height
+    // the full form needs (taller on phones, where text wraps); the script is
+    // still free to grow it, e.g. when validation messages appear.
     const IFRAME_ID = "inline-IzL86lDaqnrCCpB7ZGhO";
-    const minTarget = () => 666;
+    const minTarget = () => (window.innerWidth < 640 ? 860 : 780);
     const enforce = () => {
       const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
       if (iframe) {
@@ -114,7 +115,7 @@ function StrategyCallPage() {
               className="block w-full"
               scrolling="no"
               style={{
-                height: 666,
+                height: 780,
                 border: "none",
                 borderRadius: 4,
                 background: "transparent",
@@ -128,7 +129,7 @@ function StrategyCallPage() {
               data-deactivation-type="neverDeactivate"
               data-deactivation-value=""
               data-form-name="3. Website Lead Form"
-              data-height="666"
+              data-height="780"
               data-layout-iframe-id="inline-IzL86lDaqnrCCpB7ZGhO"
               data-form-id="IzL86lDaqnrCCpB7ZGhO"
               data-cookie-consent="true"

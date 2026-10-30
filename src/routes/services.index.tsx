@@ -4,9 +4,9 @@ import { pageHead } from "@/lib/seo";
 export const Route = createFileRoute("/services/")({
   head: () =>
     pageHead({
-      title: "Services: LeadFlow & ClientSurge | Shorecrest Digital",
+      title: "Services: LeadFirm AI & ClientSurge | Shorecrest Digital",
       description:
-        "Client acquisition systems for accounting, bookkeeping and tax firms: LeadFlow and ClientSurge, sized to your firm's revenue and goals.",
+        "Client acquisition systems for accounting, bookkeeping and tax firms: LeadFirm AI and ClientSurge, sized to your firm's revenue and goals.",
       path: "/services",
       ogTitle: "Services | Shorecrest Digital",
     }),
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/services/")({
 const services = [
   {
     to: "/services/starter",
-    product: "LeadFlow",
+    product: "LeadFirm AI",
     phase: "Starter Phase",
     revenue: "$50K+",
     summary:

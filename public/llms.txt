@@ -5,7 +5,7 @@
 ## Services
 
 - [Services overview](https://shorecrest.co/services): The systems compared by firm size, who runs it and ad channels.
-- [LeadFlow, Starter Phase ($50K+)](https://shorecrest.co/services/starter): For firms that run their own marketing. Google and Facebook ads, landing pages, automated email and SMS follow-up, CRM and live support.
+- [LeadFirm AI, Starter Phase ($50K+)](https://shorecrest.co/services/starter): For firms that run their own marketing. Google and Facebook ads, landing pages, automated email and SMS follow-up, CRM and live support.
 - [ClientSurge, Growth Phase ($250K+)](https://shorecrest.co/services/growth): Done-for-you Google and Facebook ads with every lead screened by survey and a real conversation. 10+ qualified consultations a month.
 
 ## Results

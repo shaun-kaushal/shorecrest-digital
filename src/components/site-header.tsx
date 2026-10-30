@@ -6,7 +6,7 @@ import logo from "@/assets/shorecrest-logo-white-gold-transparent.png";
 const services: { to: string; product: string; phase: string; revenue: string; description: string }[] = [
   {
     to: "/services/starter",
-    product: "LeadFlow",
+    product: "LeadFirm AI",
     phase: "Starter Phase",
     revenue: "$50K+",
     description:
