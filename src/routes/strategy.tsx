@@ -40,7 +40,9 @@ function StrategyCallPage() {
     const IFRAME_ID = "inline-IzL86lDaqnrCCpB7ZGhO";
     const minTarget = () => (window.innerWidth < 640 ? 860 : 780);
     const enforce = () => {
-      const iframe = document.getElementById(IFRAME_ID) as HTMLIFrameElement | null;
+      const iframe = document.getElementById(
+        IFRAME_ID,
+      ) as HTMLIFrameElement | null;
       if (iframe) {
         const target = minTarget();
         if (parseInt(iframe.style.height || "0", 10) < target) {
@@ -65,11 +67,12 @@ function StrategyCallPage() {
           <div>
             <p className="eyebrow">Book Your Strategy Call</p>
             <h1 className="mt-5 text-4xl leading-tight">
-              Ready to grow your <span className="text-gold">accounting firm</span>?
+              Ready to grow your{" "}
+              <span className="text-gold">accounting firm</span>?
             </h1>
             <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
-              A quick conversation, not a sales pitch. We'll map your situation and show you
-              exactly where the growth is being left on the table.
+              A quick conversation, not a sales pitch. We'll map your situation
+              and show you exactly where the growth is being left on the table.
             </p>
 
             <div className="mt-10 flex items-start gap-4 rounded-lg border border-border bg-navy p-6">
@@ -83,9 +86,9 @@ function StrategyCallPage() {
               <div>
                 <p className="font-semibold">Hi, I'm Shaun Kaushal</p>
                 <p className="mt-2 text-base leading-relaxed text-muted-foreground">
-                  If you schedule a call with me it won't be a typical sales pitch, but a
-                  consultative call to understand your firm's goals and how Shorecrest Digital can
-                  support them.
+                  If you schedule a call with me it won't be a typical sales
+                  pitch, but a consultative call to understand your firm's goals
+                  and how Shorecrest Digital can support them.
                 </p>
               </div>
             </div>
@@ -96,16 +99,21 @@ function StrategyCallPage() {
               </p>
               <ul className="mt-4 space-y-3">
                 {topics.map((topic) => (
-                  <li key={topic} className="flex items-start gap-3 text-base text-foreground/85">
+                  <li
+                    key={topic}
+                    className="flex items-start gap-3 text-base text-foreground/85"
+                  >
                     <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold">
-                      <Check className="h-3 w-3 text-primary-foreground" strokeWidth={3} />
+                      <Check
+                        className="h-3 w-3 text-primary-foreground"
+                        strokeWidth={3}
+                      />
                     </span>
                     {topic}
                   </li>
                 ))}
               </ul>
             </div>
-
           </div>
 
           {/* Right column — lead form */}

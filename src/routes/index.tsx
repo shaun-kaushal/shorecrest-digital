@@ -28,15 +28,15 @@ export const Route = createFileRoute("/")({
 });
 
 const firms = [
-  "MyBookly",
+  "MyBookly Accounting",
   "Streamline Accounting",
   "George K CPA",
   "Magid Financial",
   "T-Ledger Accounting",
   "DS CPA",
-  "Nour & Daniels Tax",
   "Resolve Accounting",
   "SunPro Alliance Financial",
+  "Adian CPA",
 ];
 
 const framework = [
@@ -66,18 +66,18 @@ const serviceLines = [
   { label: "Tax Resolution", icon: "shield" },
   { label: "Tax Planning", icon: "calendar" },
   { label: "CRA/IRS Audit", icon: "search" },
-  { label: "Bookkeeping", icon: "doc" },
+  { label: "Corporate Tax", icon: "doc" },
   { label: "Backfile Taxes", icon: "folder" },
   { label: "Cross Border Tax", icon: "globe" },
   { label: "R&D Tax Credits", icon: "flask" },
-  { label: "Business Setup", icon: "home" },
+  { label: "Real Estate Tax", icon: "home" },
 ] as const;
 
 const reasons = [
   {
     title: "Accounting firms only",
     icon: "building",
-    body: "We only work with accounting, bookkeeping and tax firms, so nothing has to be translated from another industry.",
+    body: "We only work with Enrolled Agents, tax firms, CPA firms and accounting firms across the US and Canada, so nothing has to be translated from another industry.",
   },
   {
     title: "Built by an ex-Intuit marketer",
@@ -222,13 +222,15 @@ function Home() {
           <span className="inline-block rounded-full bg-[linear-gradient(135deg,#f3d488_0%,#e3b24e_50%,#b98a2c_100%)] px-[18px] py-2 text-xs font-bold tracking-[0.08em] text-navy-deep shadow-[0_8px_24px_-10px_rgba(227,178,78,0.6)]">
             Accounting Marketing Agency
           </span>
-          <h1 className="mx-auto mt-[26px] text-[clamp(36px,5.6vw,72px)] leading-[1.05] font-bold tracking-[-0.02em] text-balance text-foreground">
-            Get More Pre-Qualified Tax Engagements
+          <h1 className="mx-auto mt-[26px] text-[clamp(36px,5.6vw,72px)] max-sm:text-[clamp(34px,10.6vw,46px)] leading-[1.05] font-bold tracking-[-0.02em] text-balance text-foreground">
+            Get More <span className="whitespace-nowrap">Pre-Qualified</span>{" "}
+            Tax Engagements
             <span className="text-gold">.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-[620px] text-lg leading-relaxed text-muted-foreground">
-            We build accounting, bookkeeping and tax firms a repeatable system
-            for booking the right clients, not just more of them.
+            We help Enrolled Agents, tax firms, CPA firms and accounting firms
+            across the US and Canada book the right clients, not just more of
+            them.
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
             <Link to="/strategy" className="btn-gold">
@@ -427,9 +429,9 @@ function Home() {
               Our process works across every service line
             </h2>
             <p className={`mt-[18px] text-lg ${INK_SOFT}`}>
-              We’re not here to bill you for busy work. We tell you exactly what
-              we’ll do for your firm, then we do it, whatever services you want
-              more of.
+              We’re not here to bill you for busy work. Whether your clients
+              deal with the IRS, the CRA or both, we tell you exactly what we’ll
+              do for your firm, then we do it.
             </p>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-2.5 md:grid-cols-4 md:gap-3.5">

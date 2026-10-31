@@ -43,10 +43,12 @@ function ResultsIndex() {
       <section className="hero-bg pt-[160px] pb-16 text-center">
         <div className="mx-auto max-w-4xl px-6">
           <p className="eyebrow">Client Results</p>
-          <h1 className="mt-4 text-4xl leading-tight">Results we've generated for our clients</h1>
+          <h1 className="mt-4 text-4xl leading-tight">
+            Results we've generated for our clients
+          </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Real case studies from accounting, bookkeeping, and tax firms — the strategies we used
-            and the returns they generated.
+            Real case studies from accounting, bookkeeping, and tax firms — the
+            strategies we used and the returns they generated.
           </p>
         </div>
       </section>
@@ -78,7 +80,10 @@ function ResultsIndex() {
                   <h2 className="mt-2 text-2xl transition-colors group-hover:text-gold sm:text-3xl">
                     {study.title}
                   </h2>
-                  <span className="mt-3 block h-px w-10 bg-gold/60" aria-hidden="true" />
+                  <span
+                    className="mt-3 block h-px w-10 bg-gold/60"
+                    aria-hidden="true"
+                  />
                   <p className="mt-3 text-base leading-relaxed text-muted-foreground">
                     {study.excerpt}
                   </p>

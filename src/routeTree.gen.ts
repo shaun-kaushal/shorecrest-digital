@@ -23,8 +23,11 @@ import { Route as ResultsIndexRouteImport } from './routes/results.index'
 import { Route as ResultsMybooklyRouteImport } from './routes/results.mybookly'
 import { Route as ResultsStreamlineAccountingRouteImport } from './routes/results.streamline-accounting'
 import { Route as ServicesIndexRouteImport } from './routes/services.index'
+import { Route as ServicesFacebookAdsRouteImport } from './routes/services.facebook-ads'
+import { Route as ServicesGoogleAdsRouteImport } from './routes/services.google-ads'
 import { Route as ServicesGrowthRouteImport } from './routes/services.growth'
 import { Route as ServicesScalingRouteImport } from './routes/services.scaling'
+import { Route as ServicesSeoGeoAeoRouteImport } from './routes/services.seo-geo-aeo'
 import { Route as ServicesStarterRouteImport } from './routes/services.starter'
 
 const IndexRoute = IndexRouteImport.update({
@@ -98,6 +101,16 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesFacebookAdsRoute = ServicesFacebookAdsRouteImport.update({
+  id: '/services/facebook-ads',
+  path: '/services/facebook-ads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesGoogleAdsRoute = ServicesGoogleAdsRouteImport.update({
+  id: '/services/google-ads',
+  path: '/services/google-ads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesGrowthRoute = ServicesGrowthRouteImport.update({
   id: '/services/growth',
   path: '/services/growth',
@@ -106,6 +119,11 @@ const ServicesGrowthRoute = ServicesGrowthRouteImport.update({
 const ServicesScalingRoute = ServicesScalingRouteImport.update({
   id: '/services/scaling',
   path: '/services/scaling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesSeoGeoAeoRoute = ServicesSeoGeoAeoRouteImport.update({
+  id: '/services/seo-geo-aeo',
+  path: '/services/seo-geo-aeo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesStarterRoute = ServicesStarterRouteImport.update({
@@ -126,8 +144,11 @@ export interface FileRoutesByFullPath {
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
+  '/services/facebook-ads': typeof ServicesFacebookAdsRoute
+  '/services/google-ads': typeof ServicesGoogleAdsRoute
   '/services/growth': typeof ServicesGrowthRoute
   '/services/scaling': typeof ServicesScalingRoute
+  '/services/seo-geo-aeo': typeof ServicesSeoGeoAeoRoute
   '/services/starter': typeof ServicesStarterRoute
   '/blog/': typeof BlogIndexRoute
   '/results/': typeof ResultsIndexRoute
@@ -145,8 +166,11 @@ export interface FileRoutesByTo {
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
+  '/services/facebook-ads': typeof ServicesFacebookAdsRoute
+  '/services/google-ads': typeof ServicesGoogleAdsRoute
   '/services/growth': typeof ServicesGrowthRoute
   '/services/scaling': typeof ServicesScalingRoute
+  '/services/seo-geo-aeo': typeof ServicesSeoGeoAeoRoute
   '/services/starter': typeof ServicesStarterRoute
   '/blog': typeof BlogIndexRoute
   '/results': typeof ResultsIndexRoute
@@ -165,8 +189,11 @@ export interface FileRoutesById {
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
+  '/services/facebook-ads': typeof ServicesFacebookAdsRoute
+  '/services/google-ads': typeof ServicesGoogleAdsRoute
   '/services/growth': typeof ServicesGrowthRoute
   '/services/scaling': typeof ServicesScalingRoute
+  '/services/seo-geo-aeo': typeof ServicesSeoGeoAeoRoute
   '/services/starter': typeof ServicesStarterRoute
   '/blog/': typeof BlogIndexRoute
   '/results/': typeof ResultsIndexRoute
@@ -186,8 +213,11 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
+    | '/services/facebook-ads'
+    | '/services/google-ads'
     | '/services/growth'
     | '/services/scaling'
+    | '/services/seo-geo-aeo'
     | '/services/starter'
     | '/blog/'
     | '/results/'
@@ -205,8 +235,11 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
+    | '/services/facebook-ads'
+    | '/services/google-ads'
     | '/services/growth'
     | '/services/scaling'
+    | '/services/seo-geo-aeo'
     | '/services/starter'
     | '/blog'
     | '/results'
@@ -224,8 +257,11 @@ export interface FileRouteTypes {
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
+    | '/services/facebook-ads'
+    | '/services/google-ads'
     | '/services/growth'
     | '/services/scaling'
+    | '/services/seo-geo-aeo'
     | '/services/starter'
     | '/blog/'
     | '/results/'
@@ -244,8 +280,11 @@ export interface RootRouteChildren {
   BlogSlugRoute: typeof BlogSlugRoute
   ResultsMybooklyRoute: typeof ResultsMybooklyRoute
   ResultsStreamlineAccountingRoute: typeof ResultsStreamlineAccountingRoute
+  ServicesFacebookAdsRoute: typeof ServicesFacebookAdsRoute
+  ServicesGoogleAdsRoute: typeof ServicesGoogleAdsRoute
   ServicesGrowthRoute: typeof ServicesGrowthRoute
   ServicesScalingRoute: typeof ServicesScalingRoute
+  ServicesSeoGeoAeoRoute: typeof ServicesSeoGeoAeoRoute
   ServicesStarterRoute: typeof ServicesStarterRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ResultsIndexRoute: typeof ResultsIndexRoute
@@ -352,6 +391,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services/facebook-ads': {
+      id: '/services/facebook-ads'
+      path: '/services/facebook-ads'
+      fullPath: '/services/facebook-ads'
+      preLoaderRoute: typeof ServicesFacebookAdsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/google-ads': {
+      id: '/services/google-ads'
+      path: '/services/google-ads'
+      fullPath: '/services/google-ads'
+      preLoaderRoute: typeof ServicesGoogleAdsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services/growth': {
       id: '/services/growth'
       path: '/services/growth'
@@ -364,6 +417,13 @@ declare module '@tanstack/react-router' {
       path: '/services/scaling'
       fullPath: '/services/scaling'
       preLoaderRoute: typeof ServicesScalingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/seo-geo-aeo': {
+      id: '/services/seo-geo-aeo'
+      path: '/services/seo-geo-aeo'
+      fullPath: '/services/seo-geo-aeo'
+      preLoaderRoute: typeof ServicesSeoGeoAeoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services/starter': {
@@ -388,8 +448,11 @@ const rootRouteChildren: RootRouteChildren = {
   BlogSlugRoute: BlogSlugRoute,
   ResultsMybooklyRoute: ResultsMybooklyRoute,
   ResultsStreamlineAccountingRoute: ResultsStreamlineAccountingRoute,
+  ServicesFacebookAdsRoute: ServicesFacebookAdsRoute,
+  ServicesGoogleAdsRoute: ServicesGoogleAdsRoute,
   ServicesGrowthRoute: ServicesGrowthRoute,
   ServicesScalingRoute: ServicesScalingRoute,
+  ServicesSeoGeoAeoRoute: ServicesSeoGeoAeoRoute,
   ServicesStarterRoute: ServicesStarterRoute,
   BlogIndexRoute: BlogIndexRoute,
   ResultsIndexRoute: ResultsIndexRoute,

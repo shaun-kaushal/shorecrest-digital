@@ -15,12 +15,10 @@ export function SiteFooter() {
           className="mx-auto h-8 w-auto"
         />
         <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-          Shorecrest Digital is a boutique growth partner agency located in Toronto, ON that focuses
-          on helping financial firm owners grow their book of business through client acquisition
-          strategies.
-        </p>
-        <p className="mt-8 text-sm font-semibold">
-          Location: 457 Plains Rd E, 222 Burlington, ON L7T 0B8 Canada
+          Shorecrest Digital is a boutique growth partner for Enrolled Agents,
+          tax firms, CPA firms and accounting firms across the United States and
+          Canada, helping firm owners grow their book of business through client
+          acquisition strategies.
         </p>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3 text-xs text-muted-foreground">
           <span>Copyright {new Date().getFullYear()} © Shorecrest Digital</span>

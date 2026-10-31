@@ -68,12 +68,13 @@ function ServicesPage() {
         <div className="mx-auto max-w-3xl px-6">
           <p className="eyebrow">Our Services</p>
           <h1 className="mt-5 text-3xl leading-tight sm:text-4xl lg:text-[2.6rem]">
-            A Client Acquisition System For <span className="text-gold">Every Stage</span> Of Your
-            Firm
+            A Client Acquisition System For{" "}
+            <span className="text-gold">Every Stage</span> Of Your Firm
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            Whether you want to run your own marketing or hand it to our team, each system is built
-            for accounting, bookkeeping and tax firms, and sized to where your firm is today.
+            Whether you want to run your own marketing or hand it to our team,
+            each system is built for accounting, bookkeeping and tax firms, and
+            sized to where your firm is today.
           </p>
         </div>
       </section>
@@ -82,15 +83,14 @@ function ServicesPage() {
       <section className="pt-16 pb-20 sm:pb-24">
         <div className="mx-auto grid max-w-4xl gap-6 px-6 md:grid-cols-2">
           {services.map((s) => (
-            <article
-              key={s.to}
-              className="card-gold flex flex-col p-7"
-            >
+            <article key={s.to} className="card-gold flex flex-col p-7">
               <p className="text-xs font-bold tracking-[0.14em] text-gold uppercase">
                 {s.phase} ({s.revenue})
               </p>
               <h2 className="mt-3 text-3xl">{s.product}</h2>
-              <p className="mt-3 text-base leading-relaxed text-muted-foreground">{s.summary}</p>
+              <p className="mt-3 text-base leading-relaxed text-muted-foreground">
+                {s.summary}
+              </p>
               <ul className="mt-6 flex-1 space-y-3">
                 {s.points.map((p) => (
                   <li key={p} className="flex gap-3 text-sm text-foreground/90">
@@ -121,7 +121,11 @@ function ServicesPage() {
                     <span className="sr-only">Feature</span>
                   </th>
                   {services.map((s) => (
-                    <th key={s.to} scope="col" className="px-5 py-4 font-display text-lg font-semibold">
+                    <th
+                      key={s.to}
+                      scope="col"
+                      className="px-5 py-4 font-display text-lg font-semibold"
+                    >
                       {s.product}
                     </th>
                   ))}
@@ -129,12 +133,18 @@ function ServicesPage() {
               </thead>
               <tbody>
                 {compareRows.map(([label, ...vals]) => (
-                  <tr key={label} className="border-t border-cream-foreground/15">
+                  <tr
+                    key={label}
+                    className="border-t border-cream-foreground/15"
+                  >
                     <th scope="row" className="px-5 py-4 font-bold">
                       {label}
                     </th>
                     {vals.map((v, i) => (
-                      <td key={i} className="px-5 py-4 text-cream-foreground/80">
+                      <td
+                        key={i}
+                        className="px-5 py-4 text-cream-foreground/80"
+                      >
                         {v}
                       </td>
                     ))}
@@ -149,10 +159,12 @@ function ServicesPage() {
       {/* CTA */}
       <section className="section bg-navy text-center">
         <div className="mx-auto max-w-2xl px-6">
-          <h2 className="text-3xl leading-snug sm:text-4xl">Not Sure Which Fits Your Firm?</h2>
+          <h2 className="text-3xl leading-snug sm:text-4xl">
+            Not Sure Which Fits Your Firm?
+          </h2>
           <p className="mt-4 text-base text-muted-foreground">
-            Book a 30-minute strategy call. We'll look at your firm's revenue, services and goals,
-            and recommend the right system. No sales pitch.
+            Book a 30-minute strategy call. We'll look at your firm's revenue,
+            services and goals, and recommend the right system. No sales pitch.
           </p>
           <Link to="/strategy" className="btn-gold mt-8">
             Book A Strategy Call

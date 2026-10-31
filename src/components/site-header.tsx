@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 import logo from "@/assets/shorecrest-logo-white-gold-transparent.png";
 
-const services: { to: string; product: string; phase: string; revenue: string; description: string }[] = [
+const services: {
+  to: string;
+  product: string;
+  phase: string;
+  revenue: string;
+  description: string;
+}[] = [
   {
     to: "/services/starter",
     product: "LeadFirm AI",
@@ -19,6 +25,27 @@ const services: { to: string; product: string; phase: string; revenue: string; d
     revenue: "$500K+",
     description:
       "For firms that want a predictable flow of new client engagements every month via advertising.",
+  },
+];
+
+const marketingServices: { to: string; name: string; description: string }[] = [
+  {
+    to: "/services/google-ads",
+    name: "Google Ads",
+    description:
+      "Search, Local Service Ads and Google Business Profile for high-intent tax searches.",
+  },
+  {
+    to: "/services/facebook-ads",
+    name: "Facebook Ads",
+    description:
+      "Reach business owners on Facebook and Instagram before they start shopping around.",
+  },
+  {
+    to: "/services/seo-geo-aeo",
+    name: "SEO / GEO / AEO",
+    description:
+      "Rank on Google and get recommended by ChatGPT, Gemini and other AI search tools.",
   },
 ];
 
@@ -41,6 +68,11 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resultsOpen, setResultsOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mktOpen, setMktOpen] = useState(false);
+  const pathname = useRouterState({ select: (st) => st.location.pathname });
+  const onServicePage = marketingServices.some((m) =>
+    pathname.startsWith(m.to),
+  );
 
   // The header floats over each page's navy hero: transparent at the top,
   // solid navy once the page scrolls (or the mobile menu is open).
@@ -56,7 +88,9 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
-        solid ? "border-border/60 bg-navy-deep/90 backdrop-blur" : "border-transparent bg-transparent"
+        solid
+          ? "border-border/60 bg-navy-deep/90 backdrop-blur"
+          : "border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
@@ -85,8 +119,9 @@ export function SiteHeader() {
                 to="/services"
                 className="flex items-center gap-1 text-foreground/80 transition-colors hover:text-gold"
                 activeProps={{ className: "text-gold" }}
+                activeOptions={{ exact: true }}
               >
-                Services
+                Products
                 <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
               </Link>
               <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
@@ -98,11 +133,43 @@ export function SiteHeader() {
                         className="block rounded-md px-4 py-3 transition-colors hover:bg-navy-soft"
                       >
                         <span className="block text-sm font-bold text-foreground">
-                          {svc.product} <span className="text-foreground/40">|</span> {svc.phase}{" "}
+                          {svc.product}{" "}
+                          <span className="text-foreground/40">|</span>{" "}
+                          {svc.phase}{" "}
                           <span className="text-gold">({svc.revenue})</span>
                         </span>
                         <span className="mt-1 block text-xs font-normal leading-relaxed tracking-normal text-foreground/60">
                           {svc.description}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+            <li className="group relative">
+              <button
+                type="button"
+                className={`flex items-center gap-1 transition-colors hover:text-gold ${
+                  onServicePage ? "text-gold" : "text-foreground/80"
+                }`}
+              >
+                Services
+                <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
+              </button>
+              <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                <ul className="w-96 rounded-lg border border-border bg-navy p-2 shadow-xl shadow-black/40">
+                  {marketingServices.map((m) => (
+                    <li key={m.to}>
+                      <Link
+                        to={m.to as any}
+                        className="block rounded-md px-4 py-3 transition-colors hover:bg-navy-soft"
+                      >
+                        <span className="block text-sm font-bold text-foreground">
+                          {m.name}
+                        </span>
+                        <span className="mt-1 block text-xs font-normal leading-relaxed tracking-normal text-foreground/60">
+                          {m.description}
                         </span>
                       </Link>
                     </li>
@@ -127,7 +194,9 @@ export function SiteHeader() {
                         to={c.to as any}
                         className="block rounded-md px-4 py-3 transition-colors hover:bg-navy-soft"
                       >
-                        <span className="block text-sm font-bold text-foreground">{c.name}</span>
+                        <span className="block text-sm font-bold text-foreground">
+                          {c.name}
+                        </span>
                         <span className="mt-1 block text-xs font-normal leading-relaxed tracking-normal text-foreground/60">
                           {c.description}
                         </span>
@@ -160,7 +229,11 @@ export function SiteHeader() {
             onClick={() => setMobileOpen((o) => !o)}
             className="flex h-10 w-10 items-center justify-center rounded-md border border-border text-foreground/90 transition-colors hover:text-gold sm:hidden"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            {mobileOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
           </button>
         </nav>
       </div>
@@ -184,13 +257,16 @@ export function SiteHeader() {
                   to="/services"
                   activeProps={{ className: "text-gold" }}
                   className="flex-1 py-2.5 text-foreground/80 transition-colors hover:text-gold"
+                  activeOptions={{ exact: true }}
                   onClick={() => setMobileOpen(false)}
                 >
-                  Services
+                  Products
                 </Link>
                 <button
                   type="button"
-                  aria-label={servicesOpen ? "Collapse services" : "Expand services"}
+                  aria-label={
+                    servicesOpen ? "Collapse products" : "Expand products"
+                  }
                   aria-expanded={servicesOpen}
                   onClick={() => setServicesOpen((o) => !o)}
                   className="flex h-10 w-10 items-center justify-center text-foreground/80 transition-colors hover:text-gold"
@@ -209,10 +285,49 @@ export function SiteHeader() {
                         className="block py-2.5 pl-4 text-foreground/70 transition-colors hover:text-gold"
                         onClick={() => setMobileOpen(false)}
                       >
-                        {svc.product} <span className="text-foreground/40">|</span> {svc.phase}{" "}
+                        {svc.product}{" "}
+                        <span className="text-foreground/40">|</span>{" "}
+                        {svc.phase}{" "}
                         <span className="text-gold">({svc.revenue})</span>
                         <span className="mt-1 block text-xs font-normal tracking-normal text-foreground/50">
                           {svc.description}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+            <li>
+              <button
+                type="button"
+                aria-label={mktOpen ? "Collapse services" : "Expand services"}
+                aria-expanded={mktOpen}
+                onClick={() => setMktOpen((o) => !o)}
+                className={`flex w-full items-center justify-between py-2.5 transition-colors hover:text-gold ${
+                  onServicePage ? "text-gold" : "text-foreground/80"
+                }`}
+              >
+                Services
+                <span className="flex h-10 w-10 items-center justify-center">
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-200 ${mktOpen ? "rotate-180" : ""}`}
+                  />
+                </span>
+              </button>
+              {mktOpen && (
+                <ul className="space-y-1 pb-2 pl-4">
+                  {marketingServices.map((m) => (
+                    <li key={m.to} className="border-l border-border/40">
+                      <Link
+                        to={m.to as any}
+                        activeProps={{ className: "text-gold" }}
+                        className="block py-2.5 pl-4 text-foreground/70 transition-colors hover:text-gold"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {m.name}
+                        <span className="mt-1 block text-xs font-normal tracking-normal text-foreground/50">
+                          {m.description}
                         </span>
                       </Link>
                     </li>
@@ -232,7 +347,9 @@ export function SiteHeader() {
                 </Link>
                 <button
                   type="button"
-                  aria-label={resultsOpen ? "Collapse results" : "Expand results"}
+                  aria-label={
+                    resultsOpen ? "Collapse results" : "Expand results"
+                  }
                   aria-expanded={resultsOpen}
                   onClick={() => setResultsOpen((o) => !o)}
                   className="flex h-10 w-10 items-center justify-center text-foreground/80 transition-colors hover:text-gold"

@@ -46,13 +46,18 @@ export function pageHead({
   const meta: Record<string, string>[] = [
     { title },
     { name: "description", content: description },
-    { name: "robots", content: noindex ? "noindex, follow" : "index, follow, max-image-preview:large" },
+    {
+      name: "robots",
+      content: noindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large",
+    },
     { property: "og:title", content: ogTitle ?? title },
     { property: "og:description", content: ogDescription ?? description },
     { property: "og:type", content: type },
     { property: "og:url", content: url },
     { property: "og:image", content: img },
-    { property: "og:image:alt", content: imageAlt ?? (ogTitle ?? title) },
+    { property: "og:image:alt", content: imageAlt ?? ogTitle ?? title },
     ...(isDefaultImage
       ? [
           { property: "og:image:width", content: "1200" },
@@ -80,24 +85,28 @@ export function pageHead({
 
 /** The business itself, referenced from other structured data. */
 export const organizationJsonLd = {
-  "@type": "ProfessionalService",
+  "@type": "Organization",
   "@id": `${SITE_URL}/#organization`,
   name: SITE_NAME,
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.png`,
   image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
   description:
-    "Client acquisition systems for accounting, bookkeeping and tax firms: Google Ads, Facebook Ads, landing pages and lead qualification.",
+    "Client acquisition systems for Enrolled Agents, tax firms, CPA firms and accounting firms across the United States and Canada, including firms handling IRS and CRA work.",
   email: "shaun@shorecrest.co",
   founder: { "@type": "Person", name: "Shaun Kaushal" },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "457 Plains Rd E",
-    addressLocality: "Burlington",
-    addressRegion: "ON",
-    postalCode: "L7T 0B8",
-    addressCountry: "CA",
-  },
+  areaServed: [
+    { "@type": "Country", name: "United States" },
+    { "@type": "Country", name: "Canada" },
+  ],
+  knowsAbout: [
+    "Lead generation for accounting firms",
+    "Marketing for tax firms",
+    "Marketing for CPA firms",
+    "Marketing for Enrolled Agents",
+    "IRS tax resolution marketing",
+    "CRA tax services marketing",
+  ],
 };
 
 /** Builds FAQPage structured data from [question, answer(s)] pairs. */

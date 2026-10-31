@@ -60,8 +60,8 @@ function MyBooklyCaseStudy() {
           </h2>
           <p className="mt-6 text-base leading-relaxed text-cream-foreground/70">
             <span className="font-semibold text-gold underline">MyBookly</span>{" "}
-            is an accounting firm in Oakville, Ontario that serves tech
-            startups, ecommerce brands, and crypto businesses.
+            is a Canadian accounting firm that serves tech startups, ecommerce
+            brands, and crypto businesses.
           </p>
           <p className="mt-4 text-base leading-relaxed text-cream-foreground/70">
             They came to us looking for a predictable way to attract clients

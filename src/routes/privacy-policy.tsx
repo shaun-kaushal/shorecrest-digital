@@ -149,10 +149,6 @@ function PrivacyPolicyPage() {
                 <li>Shaun Kaushal</li>
               </ul>
               <p>
-                <strong>Business Address:</strong> 457 Plains Rd E, Burlington,
-                ON, L7T 0B8
-              </p>
-              <p>
                 <strong>Email:</strong>{" "}
                 <a
                   href="mailto:shaun@shorecrest.co"
