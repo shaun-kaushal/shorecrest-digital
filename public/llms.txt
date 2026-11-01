@@ -20,8 +20,13 @@
 - [MyBookly Accounting case study](https://shorecrest.co/results/mybookly)
 - [Streamline Accounting case study](https://shorecrest.co/results/streamline-accounting)
 
+## Author
+
+- [Shaun Kaushal](https://shorecrest.co/author/shaun-kaushal): Founder of Shorecrest Digital and author of the guides below.
+
 ## Guides
 
+- [Your accounting website only talks to the 5% ready to buy](https://shorecrest.co/blog/accounting-firm-website-conversion)
 - [Your firm doesn't need more leads. It needs a bottleneck analysis](https://shorecrest.co/blog/accounting-firm-client-acquisition-funnel)
 - [Selling corporate tax? Fix your offer before your marketing](https://shorecrest.co/blog/sell-corporate-tax-services)
 - [How firms can attract qualified corporate tax clients](https://shorecrest.co/blog/how-firms-can-attract-qualified-corporate-tax-clients)

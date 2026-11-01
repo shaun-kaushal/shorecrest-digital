@@ -17,6 +17,7 @@ import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as StrategyRouteImport } from './routes/strategy'
 import { Route as StrategyCallRouteImport } from './routes/strategy-call'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as AuthorShaunKaushalRouteImport } from './routes/author.shaun-kaushal'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ResultsIndexRouteImport } from './routes/results.index'
@@ -68,6 +69,11 @@ const StrategyCallRoute = StrategyCallRouteImport.update({
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthorShaunKaushalRoute = AuthorShaunKaushalRouteImport.update({
+  id: '/author/shaun-kaushal',
+  path: '/author/shaun-kaushal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -141,6 +147,7 @@ export interface FileRoutesByFullPath {
   '/strategy': typeof StrategyRoute
   '/strategy-call': typeof StrategyCallRoute
   '/thank-you': typeof ThankYouRoute
+  '/author/shaun-kaushal': typeof AuthorShaunKaushalRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/strategy': typeof StrategyRoute
   '/strategy-call': typeof StrategyCallRoute
   '/thank-you': typeof ThankYouRoute
+  '/author/shaun-kaushal': typeof AuthorShaunKaushalRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/strategy': typeof StrategyRoute
   '/strategy-call': typeof StrategyCallRoute
   '/thank-you': typeof ThankYouRoute
+  '/author/shaun-kaushal': typeof AuthorShaunKaushalRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/results/mybookly': typeof ResultsMybooklyRoute
   '/results/streamline-accounting': typeof ResultsStreamlineAccountingRoute
@@ -210,6 +219,7 @@ export interface FileRouteTypes {
     | '/strategy'
     | '/strategy-call'
     | '/thank-you'
+    | '/author/shaun-kaushal'
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/strategy'
     | '/strategy-call'
     | '/thank-you'
+    | '/author/shaun-kaushal'
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
@@ -254,6 +265,7 @@ export interface FileRouteTypes {
     | '/strategy'
     | '/strategy-call'
     | '/thank-you'
+    | '/author/shaun-kaushal'
     | '/blog/$slug'
     | '/results/mybookly'
     | '/results/streamline-accounting'
@@ -277,6 +289,7 @@ export interface RootRouteChildren {
   StrategyRoute: typeof StrategyRoute
   StrategyCallRoute: typeof StrategyCallRoute
   ThankYouRoute: typeof ThankYouRoute
+  AuthorShaunKaushalRoute: typeof AuthorShaunKaushalRoute
   BlogSlugRoute: typeof BlogSlugRoute
   ResultsMybooklyRoute: typeof ResultsMybooklyRoute
   ResultsStreamlineAccountingRoute: typeof ResultsStreamlineAccountingRoute
@@ -347,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/author/shaun-kaushal': {
+      id: '/author/shaun-kaushal'
+      path: '/author/shaun-kaushal'
+      fullPath: '/author/shaun-kaushal'
+      preLoaderRoute: typeof AuthorShaunKaushalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -445,6 +465,7 @@ const rootRouteChildren: RootRouteChildren = {
   StrategyRoute: StrategyRoute,
   StrategyCallRoute: StrategyCallRoute,
   ThankYouRoute: ThankYouRoute,
+  AuthorShaunKaushalRoute: AuthorShaunKaushalRoute,
   BlogSlugRoute: BlogSlugRoute,
   ResultsMybooklyRoute: ResultsMybooklyRoute,
   ResultsStreamlineAccountingRoute: ResultsStreamlineAccountingRoute,

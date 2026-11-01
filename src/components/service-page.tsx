@@ -22,6 +22,19 @@ function Check() {
   );
 }
 
+/** Stops words like "Pre-Qualified" from breaking across lines at the hyphen. */
+function keepHyphenatedWordsTogether(text: string) {
+  return text.split(/(\S+-\S+)/).map((part, i) =>
+    i % 2 ? (
+      <span key={i} className="whitespace-nowrap">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
+
 /** Shared layout for the marketing service pages: a hero, then a call to action. */
 export function ServicePage({
   eyebrow,
@@ -36,12 +49,12 @@ export function ServicePage({
   return (
     <main>
       <section className="hero-bg pt-40 pb-24 text-center md:pt-56 md:pb-[152px]">
-        <div className="mx-auto max-w-4xl px-6">
+        <div className="mx-auto max-w-6xl px-6">
           <p className="eyebrow">{eyebrow}</p>
-          <h1 className="mx-auto mt-6 max-w-3xl text-[clamp(34px,5vw,60px)] leading-[1.08] text-balance">
-            {title}
+          <h1 className="mx-auto mt-6 max-w-6xl text-[clamp(34px,5vw,60px)] leading-[1.08] text-balance">
+            {keepHyphenatedWordsTogether(title)}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-6 max-w-4xl text-lg leading-relaxed text-muted-foreground">
             {lede}
           </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">

@@ -13,6 +13,8 @@ export type BlogBlock =
   | { type: "checklist"; items: string[] }
   | { type: "table"; head: string[]; rows: string[][] }
   | { type: "dials" }
+  /** Image floated to the right; the next paragraphs wrap around it on desktop. */
+  | { type: "image"; src: string; alt: string; width: number; height: number }
   | { type: "faq"; items: [string, string][] }
   | { type: "cta"; title: string; text: string; label: string; to: string };
 
@@ -39,10 +41,274 @@ export interface BlogPost {
   /** Optional search-result title and description; fall back to title/excerpt. */
   metaTitle?: string;
   metaDescription?: string;
+  /** Key takeaways shown in the summary card; falls back to the excerpt. */
+  summary?: string[];
   content: BlogBlock[];
 }
 
+export const AUTHOR = {
+  name: "Shaun Kaushal",
+  path: "/author/shaun-kaushal",
+  role: "Founder, Shorecrest Digital",
+} as const;
+
+/** "The 5% vs. the 95%" -> "the-5-vs-the-95" (used for heading anchors). */
+export function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[’'"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Table of contents built from the article's h2 headings. */
+export function getToc(post: BlogPost) {
+  return post.content
+    .filter((b): b is { type: "h2"; text: string } => b.type === "h2")
+    .map((b) => ({ id: slugify(b.text), text: b.text }));
+}
+
+/** Rough reading time at ~230 words per minute. */
+export function readingTime(post: BlogPost) {
+  const text = post.content
+    .map((b) => {
+      if (b.type === "p" || b.type === "h2" || b.type === "h3") return b.text;
+      if (b.type === "list" || b.type === "checklist") return b.items.join(" ");
+      if (b.type === "olist") return b.items.flat().join(" ");
+      if (b.type === "faq") return b.items.flat().join(" ");
+      if (b.type === "table") return b.rows.flat().join(" ");
+      if (b.type === "cta") return b.text;
+      return "";
+    })
+    .join(" ");
+  return Math.max(1, Math.round(text.split(/\s+/).length / 230));
+}
+
 export const blogPosts: BlogPost[] = [
+  {
+    slug: "accounting-firm-website-conversion",
+    tag: "Website",
+    title: "Your Accounting Website Only Talks to the 5% Ready to Buy",
+    date: "October 31, 2026",
+    excerpt:
+      "Most accounting firm websites only offer a free consultation. Here's how soft CTAs, calculators and nurture capture the 95% who aren't ready yet.",
+    metaTitle: "Your Accounting Website Only Talks to 5% of Visitors",
+    metaDescription:
+      "Most accounting firm websites only offer a free consultation. Here's how soft CTAs, calculators and nurture capture the 95% who aren't ready yet.",
+    image: "/blog-accounting-firm-website-conversion.webp",
+    imageAlt: "Your accounting website only talks to the 5% ready to buy",
+    summary: [
+      "Only about 5% of your website visitors are ready to book a consultation. The other 95% are problem aware and need a lower-commitment next step.",
+      "Add soft CTAs like calculators, checklists, short videos and a newsletter beside your consultation button.",
+      "Keep your content ungated with an optional opt-in, then nurture soft leads instead of calling them right away.",
+    ],
+    content: [
+      {
+        type: "p",
+        text: 'So here\'s something I see on almost every accounting firm website I audit. Every page ends with the same call to action: "Book a free consultation."',
+      },
+      {
+        type: "p",
+        text: "Now, that works for the small group of visitors who are ready to hire an accountant today. But that's roughly 5% of the people landing on your site. What about the other 95%? Right now, most firm websites give them nothing to do except leave. And the reality is, a lot of those people would have become great clients down the road.",
+      },
+      { type: "h2", text: "The 5% vs. the 95%" },
+      {
+        type: "image",
+        src: "/blog-website-5-vs-95.webp",
+        alt: "Pie chart: 5% of website visitors are solution aware, 95% are problem aware",
+        width: 800,
+        height: 800,
+      },
+      {
+        type: "p",
+        text: "The way I like to think about it, there are two types of people visiting your website.",
+      },
+      {
+        type: "p",
+        text: "The 5% are solution aware. They know they need an accountant, they've probably compared a few firms already, and they're ready to talk. A free consultation is exactly what they want.",
+      },
+      {
+        type: "p",
+        text: "The 95% are problem aware. They know something isn't right. Maybe their books are a mess, maybe they just incorporated, maybe they got a letter from the CRA or IRS. But they're not ready to hire anyone yet. They're still trying to understand the problem.",
+      },
+      {
+        type: "p",
+        text: "And for that 95%, a free consultation is too much friction. Booking a call with an accountant feels like a big commitment when you're still figuring out if you even need one. So they leave, and most of them never come back.",
+      },
+      { type: "h2", text: "You need CTAs for both paths" },
+      {
+        type: "p",
+        text: "So the fix isn't to remove your consultation button. It's to give the other 95% something useful to do. A soft CTA is a lower-commitment next step that lets someone get value from you before they're ready to talk.",
+      },
+      {
+        type: "table",
+        head: ["Visitor", "What they're thinking", "CTA that fits"],
+        rows: [
+          [
+            "Solution aware (5%)",
+            '"I need an accountant. Who should I hire?"',
+            "Book a consultation, request a callback, call now",
+          ],
+          [
+            "Problem aware (95%)",
+            '"Something\'s off. What do I need to know?"',
+            "Tax calculator, checklist, newsletter, educational video, financial assessment, downloadable tax forms",
+          ],
+        ],
+      },
+      {
+        type: "p",
+        text: "A few examples of what soft CTAs can look like for an accounting firm:",
+      },
+      {
+        type: "list",
+        items: [
+          'Tax calculators. "Estimate what you\'d save by incorporating" or "See what you might owe this year." People love plugging in their own numbers.',
+          'Checklists. A year-end tax checklist for small businesses, or a "what to send your accountant" document list.',
+          "Educational videos. Short videos of you explaining one problem at a time. And the reason this works so well is because accounting is a high-trust vertical. People don't trust companies, people trust people.",
+          'Financial assessments. A quick quiz like "Is your business ready for a bookkeeper?" that gives them a personalized result.',
+          "Newsletter. Monthly tax tips and deadline reminders that keep your brand top of mind.",
+          "Tax forms and guides. The forms they're already searching for, with a plain-language explanation of how to fill them out.",
+        ],
+      },
+      {
+        type: "p",
+        text: "Now, of course, every page should still have your consultation CTA. You're just adding a second path beside it.",
+      },
+      { type: "h2", text: "Should you gate your content?" },
+      {
+        type: "p",
+        text: "This is where a lot of firms get it wrong. They build a great checklist or calculator, then lock it behind a lead form. Name, email, phone number, and only then do you get the download.",
+      },
+      {
+        type: "p",
+        text: "My personal opinion? Ungate everything. Let people use your calculator, read your checklist and watch your videos without handing over their contact info first. The reason being is, we want to optimize for consumption, not just conversion.",
+      },
+      {
+        type: "p",
+        text: "Think about buying a car. Before you ever walk into a dealership, you've already done your research. You've Googled the models, asked ChatGPT to compare them, read reviews on industry websites. By the time you visit, you've pretty much decided for yourself.",
+      },
+      {
+        type: "p",
+        text: "Buying an accountant works the same way. Business owners like to do their own research before they reach out to anyone.",
+      },
+      {
+        type: "p",
+        text: "And I think most of us have been on the other side of this. You're searching for a property to rent or buy, you click on a listing, and it's gated behind a lead form. You know exactly what happens next. The realtor is going to call you, when all you wanted was to look around on your own. It's irritating, and it's not the experience we want to give our future clients.",
+      },
+      {
+        type: "p",
+        text: "When you ungate your content, you give people so much value up front that by the time they reach out, they're far more motivated. They already trust you. They've already decided you know what you're talking about. That's a very different conversation than calling someone who downloaded a PDF and is surprised to hear from you.",
+      },
+      {
+        type: "p",
+        text: 'So how do you still capture contact info? Make it optional and useful. "Email me my results." "Send me the checklist so I have it for tax season." "Get monthly tax tips." Some people will opt in because they actually want it, and those are the leads you want.',
+      },
+      {
+        type: "h2",
+        text: "A soft lead isn't a buyer yet, so nurture right away",
+      },
+      {
+        type: "p",
+        text: "Now, when someone opts in through a calculator or a checklist, it's tempting to call them a lead and treat them like a buyer. And you can. But there was a reason they chose the checklist and not the consultation. They're not ready yet.",
+      },
+      {
+        type: "p",
+        text: "If you call them aggressively the next morning, you're the realtor from the rental listing. What we want to do instead is start nurturing them right away, and let them raise their hand when they're ready.",
+      },
+      { type: "p", text: "Here's a simple nurture approach I'd start with:" },
+      {
+        type: "olist",
+        items: [
+          [
+            "Deliver what they asked for, immediately.",
+            "Their results or their checklist, in their inbox within minutes.",
+          ],
+          [
+            "Follow up with one helpful thing at a time.",
+            "Over the next couple of weeks, send short emails that each answer one common question related to what they downloaded.",
+          ],
+          [
+            "Show the person behind the firm.",
+            "A short intro video from you or one of your partners builds trust faster than any email.",
+          ],
+          [
+            "Give them an easy way to raise their hand.",
+            'Every email ends with a low-pressure option, like "reply with your question" or "book a 15-minute call if you want to talk it through."',
+          ],
+          [
+            "Keep them on your newsletter.",
+            "Most of these people won't need you this month. But when tax season comes, or when they get that letter, you want to be the firm that's top of mind.",
+          ],
+        ],
+      },
+      {
+        type: "p",
+        text: "The goal is simple. When they move from the 95% into the 5%, you're the first firm they think of.",
+      },
+      { type: "h2", text: "Example: what the other 95% is worth" },
+      {
+        type: "p",
+        text: "Let's run some simple numbers. These are round numbers to give you an idea, not benchmarks.",
+      },
+      {
+        type: "p",
+        text: 'Say your website gets 1,000 visitors a month, and your only CTA is "book a free consultation." If 2% book, that\'s 20 consultations. The other 980 people leave, and you have no way to reach them again.',
+      },
+      {
+        type: "p",
+        text: 'Now add a tax calculator and a checklist with an optional "email me my results." If just 3% of those 980 visitors opt in, that\'s about 29 new contacts a month, or roughly 350 a year, all in your nurture sequence.',
+      },
+      {
+        type: "p",
+        text: "If even 5% of those eventually book a call when they're ready, that's around 17 extra consultations a year from traffic you were already getting. No extra ad spend.",
+      },
+      { type: "h2", text: "What I'd do this week" },
+      {
+        type: "checklist",
+        items: [
+          'Look at your website and count how many CTAs are "book a consultation"',
+          "Pick one problem your ideal clients search for, and build one soft CTA around it",
+          'Make it ungated, with an optional "email me this" opt-in',
+          "Set up a short nurture sequence for anyone who opts in",
+          "Add a newsletter signup to your footer",
+        ],
+      },
+      { type: "h2", text: "FAQ" },
+      {
+        type: "faq",
+        items: [
+          [
+            "What is a soft CTA on an accounting firm website?",
+            "It's a lower-commitment next step than booking a consultation, like a tax calculator, checklist, newsletter or short video. It gives visitors who aren't ready to talk a way to keep engaging with your firm.",
+          ],
+          [
+            "Should accounting firms gate their content behind lead forms?",
+            "In my opinion, no. Ungated content builds more trust and brings in more motivated leads. Instead, offer an optional opt-in, like emailing someone their results.",
+          ],
+          [
+            "What's the difference between problem aware and solution aware visitors?",
+            "Problem aware visitors know something's wrong but aren't ready to hire anyone. Solution aware visitors know they need an accountant and are comparing firms. Your website needs a CTA for each.",
+          ],
+          [
+            "Are calculator and checklist signups real leads?",
+            "They're real contacts, but most aren't ready to buy yet. Nurture them with helpful follow-up and give them an easy way to book when they're ready, instead of calling them aggressively.",
+          ],
+          [
+            "What lead magnets work best for accounting firms?",
+            "Tools that solve one specific problem for your ideal client, like an incorporation savings calculator, a year-end checklist, or a short video explaining a common tax question.",
+          ],
+        ],
+      },
+      {
+        type: "cta",
+        title: "Want me to take a look at your website?",
+        text: "I'll look at your site through the eyes of both the 5% and the 95%, and tell you honestly where you're losing people and what I'd add first.",
+        label: "Book a Strategy Call",
+        to: "/strategy",
+      },
+    ],
+  },
   {
     slug: "accounting-firm-client-acquisition-funnel",
     tag: "Conversions",
@@ -55,6 +321,11 @@ export const blogPosts: BlogPost[] = [
       "Most accounting firms don't have a lead problem. They have a leak. Here's how to measure each stage of your client acquisition funnel and fix the weakest one.",
     image: "/blog-accounting-firm-client-acquisition-funnel.webp",
     imageAlt: "Accounting firm bottleneck analysis: find your funnel leak",
+    summary: [
+      "Most firms don’t have a lead problem. They have a leak somewhere between the form fill and the signed engagement letter.",
+      "Track five stages: leads, connected, booked, attended and signed. The weakest conversion rate is your bottleneck.",
+      "For most firms that’s the connect rate. Screen leads, call within minutes, give one person the job and follow up more than once.",
+    ],
     content: [
       {
         type: "p",
@@ -274,7 +545,7 @@ export const blogPosts: BlogPost[] = [
         type: "cta",
         title: "Want me to take a look at your numbers?",
         text: "I don't just look at leads. I look at the full acquisition process, because that's where the revenue is. Send me your last 90 days of lead data and I'll map out your five stages and show you where clients are slipping through the cracks. And if your funnel is already in great shape, I'll tell you that too.",
-        label: "Book a call",
+        label: "Book a Strategy Call",
         to: "/strategy",
       },
     ],
@@ -291,6 +562,11 @@ export const blogPosts: BlogPost[] = [
       "Corporate tax is a commodity, so ads and SEO alone won't make you stand out. Here's how accounting firms can position and build an offer that wins clients.",
     image: "/blog-sell-corporate-tax-services.webp",
     imageAlt: "Selling corporate tax: fix your offer before your marketing",
+    summary: [
+      "Corporate tax is a commodity, so the channel you pick matters less than your positioning and your offer.",
+      "The more commoditized your service, the more aggressive your offer needs to be. A niche makes your service less commoditized.",
+      "Tie any discount to recurring work like monthly bookkeeping, and match the offer to how buyers arrive on each channel.",
+    ],
     content: [
       {
         type: "p",
@@ -553,7 +829,7 @@ export const blogPosts: BlogPost[] = [
         type: "cta",
         title: "Not sure where your offer sits?",
         text: "I'm not here to sell you on running more ads. Send me your current corporate tax landing page or ad, and I'll tell you honestly where it sits on both dials and what I'd change first. If it's already strong, I'll tell you that too.",
-        label: "Book a call",
+        label: "Book a Strategy Call",
         to: "/strategy",
       },
     ],

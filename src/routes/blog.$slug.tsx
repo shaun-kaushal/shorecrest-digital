@@ -1,6 +1,16 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { blogPosts, getBlogPost, type BlogBlock } from "@/lib/blog-posts";
+import { useEffect, useState } from "react";
+import {
+  AUTHOR,
+  blogPosts,
+  getBlogPost,
+  getToc,
+  readingTime,
+  slugify,
+  type BlogBlock,
+  type BlogPost,
+} from "@/lib/blog-posts";
 import { absUrl, faqJsonLd, pageHead } from "@/lib/seo";
 import shaun from "@/assets/shaun-linkedin-pic.png";
 
@@ -49,8 +59,8 @@ export const Route = createFileRoute("/blog/$slug")({
           dateModified: published,
           author: {
             "@type": "Person",
-            name: "Shaun Kaushal",
-            url: absUrl("/about"),
+            name: AUTHOR.name,
+            url: absUrl(AUTHOR.path),
           },
           publisher: { "@id": "https://shorecrest.co/#organization" },
           mainEntityOfPage: absUrl(path),
@@ -88,7 +98,30 @@ function Dial({
 
 function Block({ block }: { block: BlogBlock }) {
   if (block.type === "h2") {
-    return <h2 className="mt-10 text-3xl sm:text-4xl">{block.text}</h2>;
+    // clear-both stops a section from wrapping around an image floated earlier.
+    return (
+      <h2
+        id={slugify(block.text)}
+        className="mt-10 clear-both scroll-mt-28 text-3xl sm:text-4xl"
+      >
+        {block.text}
+      </h2>
+    );
+  }
+  if (block.type === "image") {
+    return (
+      <figure className="mx-auto mt-6 mb-4 w-full max-w-sm overflow-hidden rounded-lg border border-cream-foreground/15 bg-white sm:float-right sm:mt-2 sm:ml-8 sm:w-[44%] sm:max-w-none">
+        <img
+          src={block.src}
+          alt={block.alt}
+          width={block.width}
+          height={block.height}
+          loading="lazy"
+          decoding="async"
+          className="h-auto w-full"
+        />
+      </figure>
+    );
   }
   if (block.type === "h3") {
     return <h3 className="mt-8 text-xl sm:text-2xl">{block.text}</h3>;
@@ -221,8 +254,107 @@ function Block({ block }: { block: BlogBlock }) {
   );
 }
 
+function scrollToHeading(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  e.preventDefault();
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+/** Highlights the section currently on screen. */
+function useActiveHeading(ids: string[]) {
+  const key = ids.join("|");
+  const [active, setActive] = useState(ids[0] ?? "");
+  useEffect(() => {
+    const els = key
+      .split("|")
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (!els.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const first = entries.find((en) => en.isIntersecting);
+        if (first) setActive(first.target.id);
+      },
+      { rootMargin: "-110px 0px -65% 0px" },
+    );
+    els.forEach((el) => obs.observe(el));
+    return () => obs.disconnect();
+  }, [key]);
+  return active;
+}
+
+function TableOfContents({
+  toc,
+  active,
+  className = "",
+}: {
+  toc: { id: string; text: string }[];
+  active: string;
+  className?: string;
+}) {
+  return (
+    <nav aria-label="Table of contents" className={className}>
+      <p className="text-[11px] font-bold tracking-[0.16em] text-cream-foreground/60 uppercase">
+        On this page
+      </p>
+      <ol className="mt-3 space-y-1 border-l border-cream-foreground/15">
+        {toc.map((t) => (
+          <li key={t.id}>
+            <a
+              href={`#${t.id}`}
+              onClick={(e) => scrollToHeading(e, t.id)}
+              className={`-ml-px block border-l-2 py-1.5 pl-4 text-sm leading-snug transition-colors ${
+                active === t.id
+                  ? "border-[#a8823a] font-bold text-cream-foreground"
+                  : "border-transparent text-cream-foreground/65 hover:text-cream-foreground"
+              }`}
+            >
+              {t.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+function SummaryCard({ post }: { post: BlogPost }) {
+  return (
+    <aside className="rounded-lg border border-cream-foreground/15 border-l-4 border-l-[#a8823a] bg-[#fbf8f2] p-6 sm:p-7">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-[11px] font-bold tracking-[0.16em] text-[#94701f] uppercase">
+          Summary
+        </p>
+        <p className="text-xs font-semibold text-cream-foreground/60">
+          {readingTime(post)} min read
+        </p>
+      </div>
+      {post.summary ? (
+        <ul className="mt-3 space-y-2.5">
+          {post.summary.map((item) => (
+            <li
+              key={item}
+              className="flex gap-3 text-[15px] leading-relaxed text-cream-foreground/85"
+            >
+              <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#a8823a]" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="mt-3 text-[15px] leading-relaxed text-cream-foreground/85">
+          {post.excerpt}
+        </p>
+      )}
+    </aside>
+  );
+}
+
 function BlogArticle() {
   const { post, prev, next } = Route.useLoaderData();
+  const toc = getToc(post);
+  const active = useActiveHeading(toc.map((t) => t.id));
 
   return (
     <main>
@@ -251,66 +383,117 @@ function BlogArticle() {
             aria-hidden="true"
           />
           <p className="mt-5 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            Posted on {post.date} by Shaun Kaushal
+            Posted on {post.date} by{" "}
+            <Link
+              to="/author/shaun-kaushal"
+              className="text-gold hover:underline"
+            >
+              {AUTHOR.name}
+            </Link>
           </p>
         </div>
       </section>
 
       {/* Article body */}
       <article className="bg-cream text-cream-foreground">
-        <div className="mx-auto max-w-3xl px-6 py-16">
-          {post.content.map((block, i) => (
-            <Block key={i} block={block} />
-          ))}
-
-          {/* Author box */}
-          <div className="mt-14 flex items-start gap-5 border-t border-cream-foreground/15 pt-8">
-            <img
-              src={shaun}
-              alt="Shaun Kaushal"
-              width={64}
-              height={64}
-              loading="lazy"
-              decoding="async"
-              className="aspect-square h-16 w-16 shrink-0 rounded-full object-cover object-center"
+        <div className="mx-auto max-w-6xl px-6 py-16 lg:grid lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-14">
+          {/* Desktop: floating table of contents */}
+          <div className="hidden lg:block">
+            <TableOfContents
+              toc={toc}
+              active={active}
+              className="sticky top-28"
             />
-            <div>
-              <p className="text-base font-bold uppercase tracking-[0.14em]">
-                Shaun Kaushal
-              </p>
-              <p className="mt-2 text-base leading-relaxed text-cream-foreground/70">
-                Shaun Kaushal is a Marketing Strategist that focuses on helping
-                accounting firms and tax strategists across the US and Canada
-                position themselves to attract the highest quality clients.
-              </p>
-            </div>
           </div>
 
-          {/* Prev / Next */}
-          <nav className="mt-10 grid gap-4 border-t border-cream-foreground/15 pt-8 sm:grid-cols-2">
-            {prev ? (
-              <Link
-                to="/blog/$slug"
-                params={{ slug: prev.slug }}
-                className="group flex items-center gap-2 text-base font-semibold text-gold transition-colors hover:text-cream-foreground"
-              >
-                <ChevronLeft className="h-4 w-4" />
-                {prev.title}
-              </Link>
-            ) : (
-              <span />
-            )}
-            {next && (
-              <Link
-                to="/blog/$slug"
-                params={{ slug: next.slug }}
-                className="group flex items-center justify-end gap-2 text-right text-base font-semibold text-gold transition-colors hover:text-cream-foreground"
-              >
-                {next.title}
-                <ChevronRight className="h-4 w-4" />
-              </Link>
-            )}
-          </nav>
+          <div className="mx-auto max-w-3xl lg:mx-0">
+            <SummaryCard post={post} />
+            {/* Tablet and mobile: table of contents under the summary */}
+            <TableOfContents
+              toc={toc}
+              active={active}
+              className="mt-6 rounded-lg border border-cream-foreground/15 bg-[#fbf8f2] p-6 lg:hidden"
+            />
+
+            {post.content.map((block, i) => (
+              <Block key={i} block={block} />
+            ))}
+
+            {/* Author card */}
+            <aside className="mt-14 clear-both overflow-hidden rounded-xl border border-cream-foreground/15 bg-[#fbf8f2] shadow-[5px_5px_0_0_var(--color-navy-deep)]">
+              <div className="flex flex-col items-center gap-5 p-6 text-center sm:flex-row sm:items-start sm:gap-6 sm:p-8 sm:text-left">
+                <img
+                  src={shaun}
+                  alt="Shaun Kaushal"
+                  width={96}
+                  height={96}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-square h-24 w-24 shrink-0 rounded-full border-2 border-[#a8823a] object-cover object-center"
+                />
+                <div>
+                  <p className="text-[11px] font-bold tracking-[0.16em] text-[#94701f] uppercase">
+                    Written by
+                  </p>
+                  <Link
+                    to="/author/shaun-kaushal"
+                    className="mt-1 block font-display text-2xl font-bold hover:text-[#94701f]"
+                  >
+                    {AUTHOR.name}
+                  </Link>
+                  <p className="text-sm font-semibold text-cream-foreground/60">
+                    {AUTHOR.role}
+                  </p>
+                  <p className="mt-3 text-[15px] leading-relaxed text-cream-foreground/75">
+                    Shaun Kaushal is a Marketing Strategist that focuses on
+                    helping accounting firms and tax strategists across the US
+                    and Canada position themselves to attract the highest
+                    quality clients.
+                  </p>
+                  <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                    <Link
+                      to="/author/shaun-kaushal"
+                      className="inline-flex items-center justify-center rounded-[4px] border border-navy-deep px-5 py-2.5 text-sm font-bold transition-colors hover:bg-navy-deep hover:text-foreground"
+                    >
+                      View all articles
+                    </Link>
+                    <Link
+                      to="/strategy"
+                      className="btn-gold px-5 py-2.5 text-sm"
+                    >
+                      Book a Strategy Call
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* Prev / Next */}
+            <nav className="mt-10 grid gap-4 border-t border-cream-foreground/15 pt-8 sm:grid-cols-2">
+              {prev ? (
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: prev.slug }}
+                  className="group flex items-center gap-2 text-base font-semibold text-gold transition-colors hover:text-cream-foreground"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  {prev.title}
+                </Link>
+              ) : (
+                <span />
+              )}
+              {next && (
+                <Link
+                  to="/blog/$slug"
+                  params={{ slug: next.slug }}
+                  className="group flex items-center justify-end gap-2 text-right text-base font-semibold text-gold transition-colors hover:text-cream-foreground"
+                >
+                  {next.title}
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              )}
+            </nav>
+          </div>
         </div>
       </article>
     </main>
